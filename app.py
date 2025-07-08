@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 from gtts import gTTS
 from io import BytesIO
-from weather import get_weather, get_weather_telugu, get_weather_hindi
+from weather import get_weather
 
 # Load models
 crop_model = pickle.load(open("crop_model.pkl", "rb"))
