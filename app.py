@@ -4,16 +4,11 @@ import pickle
 import joblib
 from gtts import gTTS
 from io import BytesIO
-import speech_recognition as sr
 import numpy as np
 from weather import get_weather, get_weather_telugu, get_weather_hindi
-# First uninstall any existing PyAudio
-pip uninstall PyAudio
 
-# Install with pipwin (Windows-specific)
-pip install pipwin
-pipwin install PyAudio
-pip install --upgrade pip
+# Remove the pip installation commands - these won't work in Streamlit Cloud
+# Instead, we'll use a try-except block for speech recognition
 
 # Custom CSS for modern UI
 st.markdown("""
@@ -98,9 +93,6 @@ except Exception as e:
     st.error(f"❌ label_encoder.pkl loading failed: {e}")
     st.stop()
 
-# Speech recognition setup
-recognizer = sr.Recognizer()
-
 def speak(text, lang='te', autoplay=True):
     """Enhanced speak function with autoplay option"""
     try:
@@ -109,7 +101,6 @@ def speak(text, lang='te', autoplay=True):
         tts.write_to_fp(fp)
         
         if autoplay:
-            # Auto-play audio
             st.audio(fp.getvalue(), format='audio/mp3', autoplay=True)
         else:
             st.audio(fp.getvalue(), format='audio/mp3')
@@ -118,38 +109,13 @@ def speak(text, lang='te', autoplay=True):
         st.warning(f"Voice output failed: {e}")
         return False
 
-def listen_to_speech(lang_code='en-US'):
-    """Speech recognition function"""
-    try:
-        with sr.Microphone() as source:
-            recognizer.adjust_for_ambient_noise(source, duration=1)
-            st.info("🎤 Listening... Please speak now")
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-            
-        # Convert speech to text
-        if lang_code == 'te-IN':
-            text = recognizer.recognize_google(audio, language='te-IN')
-        elif lang_code == 'hi-IN':
-            text = recognizer.recognize_google(audio, language='hi-IN')
-        else:
-            text = recognizer.recognize_google(audio, language='en-US')
-            
-        return text
-    except sr.RequestError:
-        st.error("Could not connect to speech recognition service")
-        return None
-    except sr.UnknownValueError:
-        st.warning("Could not understand audio. Please try again.")
-        return None
-    except sr.WaitTimeoutError:
-        st.warning("No speech detected. Please try again.")
-        return None
-    except Exception as e:
-        st.error(f"Speech recognition error: {e}")
-        return None
+def listen_to_speech():
+    """Fallback speech recognition function"""
+    st.warning("Voice input is not available in this environment. Please type your inputs.")
+    return None
 
 def voice_input_field(label, key, input_type="text", min_val=None, max_val=None, step=None):
-    """Custom voice input field component"""
+    """Custom voice input field component with fallback"""
     col1, col2 = st.columns([3, 1])
     
     with col1:
@@ -161,29 +127,8 @@ def voice_input_field(label, key, input_type="text", min_val=None, max_val=None,
             value = st.number_input(label, min_value=min_val, max_value=max_val, step=step, key=key)
     
     with col2:
-        if st.button(f"🎤", key=f"voice_{key}", help="Click to speak"):
-            with st.spinner("Listening..."):
-                lang_code = 'te-IN' if st.session_state.get('language') == 'తెలుగు' else 'hi-IN' if st.session_state.get('language') == 'हिन्दी' else 'en-US'
-                speech_text = listen_to_speech(lang_code)
-                
-                if speech_text:
-                    st.success(f"Heard: {speech_text}")
-                    
-                    # Process the speech input based on type
-                    if input_type in ["number", "float"]:
-                        try:
-                            # Extract numbers from speech
-                            import re
-                            numbers = re.findall(r'\d+\.?\d*', speech_text)
-                            if numbers:
-                                value = float(numbers[0]) if input_type == "float" else int(numbers[0])
-                                st.session_state[key] = value
-                                st.experimental_rerun()
-                        except:
-                            st.warning("Could not extract number from speech")
-                    else:
-                        st.session_state[key] = speech_text
-                        st.experimental_rerun()
+        if st.button(f"🎤", key=f"voice_{key}", help="Voice input not available in cloud environment"):
+            listen_to_speech()
     
     return value
 
@@ -270,7 +215,6 @@ col1, col2, col3 = st.columns([1, 1, 1])
 
 with col2:
     if st.button("🌾 Get Crop Recommendation", type="primary", use_container_width=True):
-        # Validate inputs
         if all([n is not None, p is not None, k is not None, temp is not None, hum is not None, ph is not None, rain is not None]):
             with st.spinner("Analyzing soil conditions..."):
                 features = [[n, p, k, temp, hum, ph, rain]]
@@ -295,7 +239,6 @@ with col2:
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Auto-play recommendation
                 lang_code = 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en'
                 speak(f"{output}. {detailed_msg}", lang_code, autoplay=True)
         else:
@@ -304,21 +247,20 @@ with col2:
 # Voice commands help
 with st.expander("🎙️ Voice Commands Help"):
     st.markdown("""
-    **How to use voice input:**
-    - Click the 🎤 button next to any input field
-    - Speak clearly into your microphone
-    - For numbers, say them clearly (e.g., "twenty five" for 25)
-    - For city names, speak the name clearly
+    **Note:** Voice input is not available in the web version of this app due to browser limitations.
+    
+    **How to use the app:**
+    - Enter all values manually using the input fields
+    - The app will still provide voice output for recommendations
     
     **Supported Languages:**
-    - English: Full voice support
-    - తెలుగు: Voice input and output
-    - हिन्दी: Voice input and output
+    - English: Full text support
+    - తెలుగు: Text input and voice output
+    - हिन्दी: Text input and voice output
     
-    **Tips:**
-    - Ensure your microphone is working
-    - Speak in a quiet environment
-    - Allow microphone permissions when prompted
+    **For full voice capabilities:**
+    - Run this app locally on your computer
+    - Ensure you have a microphone installed
     """)
 
 # Footer
