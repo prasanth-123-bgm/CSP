@@ -3,5 +3,4 @@ pandas
 scikit-learn
 gTTS
 requests
-joblib
-
+pickle
