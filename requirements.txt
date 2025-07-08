@@ -1,6 +1,7 @@
-pickle
 streamlit
 pandas
 scikit-learn
 gTTS
 requests
+joblib
+
