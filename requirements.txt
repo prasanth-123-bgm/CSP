@@ -1,7 +1,8 @@
-streamlit
-pandas
-joblib
-gTTS
-SpeechRecognition
-numpy
-PyAudio
+streamlit>=1.35.0
+pandas>=2.2.2
+joblib>=1.4.2
+gTTS>=2.5.1
+SpeechRecognition>=3.10.1
+numpy>=1.26.4
+sounddevice>=0.4.6  # Alternative to PyAudio
+pipwin>=0.5.2  # Windows-only
