@@ -1,22 +1,22 @@
+
 import streamlit as st
 import pandas as pd
 import pickle
 from gtts import gTTS
 from io import BytesIO
-from weather import get_weather
+from weather import get_weather, get_weather_telugu, get_weather_hindi
 
 # Load models
 crop_model = pickle.load(open("crop_model.pkl", "rb"))
 le = pickle.load(open("label_encoder.pkl", "rb"))
 
-# Speak function
 def speak(text, lang='te'):
     tts = gTTS(text=text, lang=lang)
     fp = BytesIO()
     tts.write_to_fp(fp)
     st.audio(fp.getvalue(), format='audio/mp3')
 
-# Weather UI
+st.set_page_config(page_title="Agri Voice Assistant", layout="centered")
 st.title("🌿 Agri Voice Assistant (Weather + Crop)")
 lang = st.radio("Language", ["English", "తెలుగు", "हिन्दी"])
 
@@ -35,7 +35,6 @@ if st.button("Get Weather"):
             speak(report, 'en')
         st.text_area("Weather Info", report, height=150)
 
-# Crop Recommendation UI
 st.header("🌱 Crop Recommendation")
 n = st.number_input("Nitrogen (N)", 0, 200)
 p = st.number_input("Phosphorus (P)", 0, 200)
