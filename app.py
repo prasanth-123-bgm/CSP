@@ -13,6 +13,7 @@ pip uninstall PyAudio
 # Install with pipwin (Windows-specific)
 pip install pipwin
 pipwin install PyAudio
+pip install --upgrade pip
 
 # Custom CSS for modern UI
 st.markdown("""
