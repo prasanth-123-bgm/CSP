@@ -6,15 +6,29 @@ from gtts import gTTS
 from io import BytesIO
 from weather import get_weather, get_weather_telugu, get_weather_hindi
 
-# Load models
-crop_model = pickle.load(open("crop_model.pkl", "rb"))
-le = pickle.load(open("label_encoder.pkl", "rb"))
+# Safe model loading
+try:
+    with open("crop_model.pkl", "rb") as f:
+        crop_model = pickle.load(f)
+except Exception as e:
+    st.error(f"❌ crop_model.pkl loading failed: {e}")
+    st.stop()
+
+try:
+    with open("label_encoder.pkl", "rb") as f:
+        le = pickle.load(f)
+except Exception as e:
+    st.error(f"❌ label_encoder.pkl loading failed: {e}")
+    st.stop()
 
 def speak(text, lang='te'):
-    tts = gTTS(text=text, lang=lang)
-    fp = BytesIO()
-    tts.write_to_fp(fp)
-    st.audio(fp.getvalue(), format='audio/mp3')
+    try:
+        tts = gTTS(text=text, lang=lang)
+        fp = BytesIO()
+        tts.write_to_fp(fp)
+        st.audio(fp.getvalue(), format='audio/mp3')
+    except Exception as e:
+        st.warning(f"Voice output failed: {e}")
 
 st.set_page_config(page_title="Agri Voice Assistant", layout="centered")
 st.title("🌿 Agri Voice Assistant (Weather + Crop)")
