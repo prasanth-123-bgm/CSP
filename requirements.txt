@@ -8,3 +8,4 @@ sounddevice>=0.4.6  # Alternative to PyAudio
 pipwin>=0.5.2  # Windows-only
 scikit-learn
 PyAudio
+pip
