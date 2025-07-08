@@ -7,6 +7,12 @@ from io import BytesIO
 import speech_recognition as sr
 import numpy as np
 from weather import get_weather, get_weather_telugu, get_weather_hindi
+# First uninstall any existing PyAudio
+pip uninstall PyAudio
+
+# Install with pipwin (Windows-specific)
+pip install pipwin
+pipwin install PyAudio
 
 # Custom CSS for modern UI
 st.markdown("""
