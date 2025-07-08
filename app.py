@@ -2,14 +2,14 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import joblib
 from gtts import gTTS
 from io import BytesIO
 from weather import get_weather, get_weather_telugu, get_weather_hindi
 
 # Safe model loading
 try:
-    with open("crop_model.pkl", "rb") as f:
-        crop_model = pickle.load(f)
+    crop_model = joblib.load("crop_model.pkl")
 except Exception as e:
     st.error(f"❌ crop_model.pkl loading failed: {e}")
     st.stop()
