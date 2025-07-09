@@ -38,7 +38,7 @@ html, body, [class*="css"] {
 }
 
 h1, h2, h3, label, p, span, .stRadio label, .stMarkdown {
-    color: var(--text);
+    color: #FFFFFF;
     text-shadow: 0 1px 1px rgba(0,0,0,0.1);  /* subtle glow */
     font-weight: 600;
 }
