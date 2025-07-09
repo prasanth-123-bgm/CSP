@@ -23,52 +23,144 @@ st.set_page_config(
 st.markdown("""
 <style>
     :root {
-        --primary: #2E7D32;
-        --secondary: #1565C0;
-        --accent: #FF8F00;
-        --text: #263238;
-        --bg: #FAFAFA;
+        --primary: #00C853;  /* Vibrant green (tech/futuristic) */
+        --secondary: #2962FF; /* Electric blue */
+        --accent: #FF6D00;   /* Orange for highlights */
+        --text: #212121;     /* Deep black for text */
+        --bg: #FFFFFF;       /* Pure white background */
+        --card-bg: #FAFAFA;  /* Slightly off-white for cards */
+        --hover-effect: 0 4px 12px rgba(0, 200, 83, 0.2); /* Glow effect */
     }
     
+    /* Base Layout */
     .stApp {
         background-color: var(--bg);
+        font-family: 'Segoe UI', system-ui, sans-serif;
     }
     
-    .header {
-        color: var(--primary);
-        border-bottom: 2px solid var(--primary);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .card {
-        background: white;
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin-bottom: 1.5rem;
-        border-left: 4px solid var(--primary);
-    }
-    
-    .input-label {
-        font-weight: 600;
+    /* Typography */
+    h1, h2, h3 {
         color: var(--text);
-        margin-bottom: 0.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
     }
     
-    .result-card {
-        background: #E8F5E9;
-        border-left: 4px solid var(--primary);
+    /* Cards (Futuristic Neumorphism) */
+    .card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 
+            0 4px 6px rgba(0, 0, 0, 0.05),
+            0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+            0 6px 12px rgba(0, 0, 0, 0.1),
+            0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Input Fields */
+    .stTextInput>div>div>input, 
+    .stNumberInput>div>div>input {
+        border: 1px solid #E0E0E0;
+        border-radius: 12px;
+        padding: 10px 16px;
+        transition: all 0.3s;
+    }
+    
+    .stTextInput>div>div>input:focus, 
+    .stNumberInput>div>div>input:focus {
+        border-color: var(--primary);
+        box-shadow: var(--hover-effect);
+    }
+    
+    /* Buttons (Holographic Effect) */
+    .stButton>button {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(41, 98, 255, 0.2);
+    }
+    
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(41, 98, 255, 0.3);
+        opacity: 0.9;
+    }
+    
+    /* Tabs (Animated Underline) */
+    .stTabs [role="tablist"] {
+        border-bottom: 2px solid #EEEEEE;
+    }
+    
+    .stTabs [role="tab"] {
+        color: var(--text);
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        margin: 0 0.25rem;
+        transition: all 0.3s;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        color: var(--primary);
+        border-bottom: 3px solid var(--primary);
+        animation: tabSelect 0.3s ease-out;
+    }
+    
+    @keyframes tabSelect {
+        0% { transform: scaleX(0); opacity: 0; }
+        100% { transform: scaleX(1); opacity: 1; }
+    }
+    
+    /* Voice Button (Pulsing Animation) */
     .voice-btn {
         background: var(--secondary) !important;
         color: white !important;
-        border-radius: 20px !important;
+        border-radius: 50% !important;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse 2s infinite;
     }
     
-    .tab-button {
-        font-weight: 600 !important;
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
+    }
+    
+    /* Result Cards (Slide-in Animation) */
+    .result-card {
+        background: var(--card-bg);
+        border-left: 4px solid var(--primary);
+        animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translateX(20px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Responsive Grid */
+    @media (max-width: 768px) {
+        .card {
+            padding: 1rem;
+            border-radius: 12px;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
