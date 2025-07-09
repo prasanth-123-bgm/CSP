@@ -26,14 +26,14 @@ st.markdown("""
     --secondary: #2962FF;
     --accent: #FF6D00;
     --text: #1B1B1B;           /* Darker black for better contrast */
-    --bg: #E8F5E9;             /* Slightly lighter green */
+    --bg: #964B00;             /* Slightly lighter green */
     --card-bg: rgba(255, 255, 255, 0.92);
     --footer-bg: #1B5E20;
 }
 
 html, body, [class*="css"] {
     font-family: 'Segoe UI', sans-serif;
-    background-color: rgb(139,69,19);
+    background-color: var(--bg);
     color: var(--text);
 }
 
