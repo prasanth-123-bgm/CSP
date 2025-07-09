@@ -1,115 +1,68 @@
 import requests
-import json
 
-# You'll need to get a free API key from OpenWeatherMap
-# Visit: https://openweathermap.org/api
-API_KEY = "99aef283258d437fac031135250807"  # Replace with your actual API key
-BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
+weatherapi_key = "99aef283258d437fac031135250807"  # replace with your real key
 
 def get_weather(city):
-    """Get weather information in English"""
-    try:
-        if API_KEY == "99aef283258d437fac031135250807":
-            return f"Weather service unavailable. Please add your OpenWeatherMap API key in weather.py file."
-        
-        params = {
-            'q': city,
-            'appid': API_KEY,
-            'units': 'metric'
-        }
-        
-        response = requests.get(BASE_URL, params=params)
-        
-        if response.status_code == 200:
-            data = response.json()
-            
-            temperature = data['main']['temp']
-            humidity = data['main']['humidity']
-            description = data['weather'][0]['description']
-            feels_like = data['main']['feels_like']
-            
-            weather_report = f"""
-            Weather in {city}:
-            Temperature: {temperature}°C (feels like {feels_like}°C)
-            Humidity: {humidity}%
-            Condition: {description.title()}
-            """
-            
-            return weather_report
-        else:
-            return f"Sorry, couldn't get weather information for {city}. Please check the city name."
-    
-    except Exception as e:
-        return f"Error fetching weather data: {str(e)}"
+    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        condition = data['current']['condition']['text']
+        temp = data['current']['temp_c']
+        humidity = data['current']['humidity']
+        wind = data['current']['wind_kph']
+        report = (
+            f"Weather in {city}:\n"
+            f"Condition: {condition}\n"
+            f"Temperature: {temp}°C\n"
+            f"Humidity: {humidity}%\n"
+            f"Wind Speed: {wind} kph"
+        )
+        return report
+    else:
+        return f"❌ Weather information not available for {city}."
 
 def get_weather_telugu(city):
-    """Get weather information in Telugu"""
-    try:
-        if API_KEY == "99aef283258d437fac031135250807":
-            return f"వాతావరణ సేవ అందుబాటులో లేదు. దయచేసి weather.py ఫైల్‌లో మీ OpenWeatherMap API కీని జోడించండి."
-        
-        params = {
-            'q': city,
-            'appid': API_KEY,
-            'units': 'metric'
-        }
-        
-        response = requests.get(BASE_URL, params=params)
-        
-        if response.status_code == 200:
-            data = response.json()
-            
-            temperature = data['main']['temp']
-            humidity = data['main']['humidity']
-            description = data['weather'][0]['description']
-            feels_like = data['main']['feels_like']
-            
-            weather_report = f"""
-            {city} లో వాతావరణం:
-            ఉష్ణోగ్రత: {temperature}°C (అనుభవం {feels_like}°C)
-            తేమ: {humidity}%
-            స్థితి: {description}
-            """
-            
-            return weather_report
-        else:
-            return f"క్షమించండి, {city} కోసం వాతావరణ సమాచారం పొందలేకపోయింది. దయచేసి నగర పేరును తనిఖీ చేయండి."
-    
-    except Exception as e:
-        return f"వాతావరణ డేటా పొందడంలో లోపం: {str(e)}"
+    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        condition = data['current']['condition']['text']
+        temp = data['current']['temp_c']
+        humidity = data['current']['humidity']
+        wind = data['current']['wind_kph']
+        report = (
+           f"{city} లో వాతావరణ నివేదిక:\n"
+            f"పరిస్థితి: {condition}\n"
+            f"ఉష్ణోగ్రత: {temp} డిగ్రీల సెల్సియస్\n"
+            f"తేమ శాతం: {humidity}%\n"
+            f"గాలివేగం: {wind} కి.మీ/గంటకి"
+        )
+        return report
+    else:
+       return f"❌ {city} యొక్క వాతావరణాన్ని పొందలేకపోయాము."
+
 
 def get_weather_hindi(city):
-    """Get weather information in Hindi"""
-    try:
-        if API_KEY == "99aef283258d437fac031135250807":
-            return f"मौसम सेवा अनुपलब्ध है। कृपया weather.py फ़ाइल में अपनी OpenWeatherMap API key जोड़ें।"
-        
-        params = {
-            'q': city,
-            'appid': API_KEY,
-            'units': 'metric'
-        }
-        
-        response = requests.get(BASE_URL, params=params)
-        
-        if response.status_code == 200:
-            data = response.json()
-            
-            temperature = data['main']['temp']
-            humidity = data['main']['humidity']
-            description = data['weather'][0]['description']
-            feels_like = data['main']['feels_like']
-            
-            weather_report = f"""
-            {city} में मौसम:
-            तापमान: {temperature}°C (महसूस होता है {feels_like}°C)
-            आर्द्रता: {humidity}%
-            स्थिति: {description}
-            """
-            
-            return weather_report
-        else:
-            return f"खुशी है, {city} के लिए मौसम की जानकारी नहीं मिली। कृपया शहर का नाम जांचें।"
-    
-    except Exception as e:
-        return f"मौसम डेटा प्राप्त करने में त्रुटि: {str(e)}"
+    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        condition = data['current']['condition']['text']
+        temp = data['current']['temp_c']
+        humidity = data['current']['humidity']
+        wind = data['current']['wind_kph']
+        report = (
+            f"{city} में मौसम की जानकारी:\n"
+            f"स्थिति: {condition}\n"
+            f"तापमान: {temp} डिग्री सेल्सियस\n"
+            f"नमी: {humidity}%\n"
+            f"हवा की गति: {wind} किलोमीटर प्रति घंटा"
+)
+
+        return report
+    else:
+       return f"❌ {city} के मौसम की जानकारी प्राप्त नहीं हो सकी।"
