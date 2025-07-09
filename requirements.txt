@@ -8,3 +8,4 @@ pyaudio
 requests
 urllib3
 weather
+streamlit
