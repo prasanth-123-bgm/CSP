@@ -49,104 +49,116 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-/* Background Image */
-body {
-    background-image: url('csp background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
+/* === GLOBAL RESET & FONTS === */
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease-in-out;
+    scroll-behavior: smooth;
 }
 
-/* Overlay tint for readability */
+/* === APP CONTAINER WITH GLASS EFFECT === */
 .stApp {
-    background-color: rgba(255, 255, 255, 0.85);
-    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
     border-radius: 20px;
-    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
 }
 
-/* Headings and text */
-h1, h2, h3, label, p, span, .stMarkdown, .stRadio label {
-    color: #1A1A1A;
+/* === HEADERS === */
+h1, h2, h3, .stMarkdown, .stRadio label {
+    color: #00fff2;
     font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+    text-shadow: 0 0 4px #00c9a7;
 }
 
-/* Navbar */
-.navbar {
-    background: linear-gradient(to right, #2E7D32, #00B0FF);
-    padding: 1rem 2rem;
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
-
-/* Footer */
-.footer {
-    background-color: #004D40;
-    color: #ffffff;
-    padding: 1rem;
-    border-radius: 16px;
-    text-align: center;
-    font-size: 0.9rem;
-    margin-top: 3rem;
-    box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
-}
-
-/* Input styling */
+/* === INPUT FIELDS === */
 input, .stNumberInput input {
-    background-color: #ffffff !important;
-    color: #1A1A1A !important;
-    border: 2px solid #2E7D32;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    color: #00e5ff !important;
+    border: 1.5px solid #00ffc3;
+    border-radius: 12px;
+    padding: 0.6rem;
     font-weight: 600;
-    font-size: 1rem;
 }
-
-/* Placeholder */
 input::placeholder {
-    color: #4E944F;
+    color: #80cbc4;
     font-weight: 500;
 }
 
-/* Buttons */
+/* === BUTTON STYLING === */
 .stButton > button {
-    background: linear-gradient(135deg, #00C853, #00B0FF);
+    background: linear-gradient(135deg, #00e676, #00b0ff);
     color: white;
     border: none;
-    border-radius: 12px;
-    padding: 0.7rem 1.3rem;
+    border-radius: 16px;
+    padding: 0.7rem 1.4rem;
     font-weight: bold;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    transition: 0.3s ease-in-out;
+    box-shadow: 0 0 18px rgba(0, 255, 200, 0.3);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
 }
 
 .stButton > button:hover {
-    transform: translateY(-2px) scale(1.03);
-    background: linear-gradient(135deg, #00B0FF, #FFA000);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #00b0ff, #ff6f00);
+    box-shadow: 0 0 24px rgba(255, 111, 0, 0.4);
+    transform: scale(1.05) rotate(-0.5deg);
 }
 
-/* Result Cards */
+/* === TABS === */
+.stTabs [role="tab"] {
+    background: #212121;
+    color: #00e5ff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.stTabs [role="tab"][aria-selected="true"] {
+    background: linear-gradient(to right, #00c9a7, #00b0ff);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 255, 255, 0.3);
+}
+
+/* === RESULT CARD === */
 .result-card {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 1.2rem 1.6rem;
-    border-left: 6px solid #00C853;
-    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.6);
+    border-left: 6px solid #00e676;
+    border-radius: 16px;
+    padding: 1.5rem;
     margin-top: 1.5rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    animation: slideIn 0.5s ease;
+    color: #e0f7fa;
+    box-shadow: 0 0 20px rgba(0,255,200,0.2);
+    animation: floatIn 0.6s ease;
 }
 
-@keyframes slideIn {
-    from { transform: translateY(20px); opacity: 0; }
+/* === CUSTOM ANIMATION === */
+@keyframes floatIn {
+    from { transform: translateY(30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+/* === FOOTER === */
+.footer {
+    background: linear-gradient(to right, #212121, #004d40);
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 8px rgba(0, 255, 200, 0.1);
+}
+
+/* === SCROLLBAR STYLING === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#00c9a7, #00b0ff);
+    border-radius: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
