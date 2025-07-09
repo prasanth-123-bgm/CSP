@@ -4,3 +4,4 @@ joblib
 gtts
 speechrecognition
 numpy
+scikit-learn
