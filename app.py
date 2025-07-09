@@ -25,7 +25,7 @@ st.markdown("""
         --primary: #00C853;   /* Vibrant green (farm tech) */
         --secondary: #2962FF; /* Electric blue */
         --accent: #FFA000;    /* Amber for attention */
-        --text: solid black;      /* Rich gray-black */
+        --text: #000000;      /* Rich gray-black */
         --bg: #F1F8E9;        /* Light lime background (eco friendly) */
         --card-bg: #FFFFFF;   /* Clean white for cards */
     }
@@ -38,7 +38,7 @@ st.markdown("""
 
     h1, h2, h3 {
         font-weight: 700;
-        color: var(--text);
+        color: #000000;
     }
 
     .stApp {
