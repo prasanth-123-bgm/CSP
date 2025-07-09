@@ -9,7 +9,7 @@ BASE_URL = "http://api.openweathermap.org/data/2.5/weather"
 def get_weather(city):
     """Get weather information in English"""
     try:
-        if API_KEY == "YOUR_API_KEY_HERE":
+        if API_KEY == "99aef283258d437fac031135250807":
             return f"Weather service unavailable. Please add your OpenWeatherMap API key in weather.py file."
         
         params = {
@@ -45,7 +45,7 @@ def get_weather(city):
 def get_weather_telugu(city):
     """Get weather information in Telugu"""
     try:
-        if API_KEY == "YOUR_API_KEY_HERE":
+        if API_KEY == "99aef283258d437fac031135250807":
             return f"వాతావరణ సేవ అందుబాటులో లేదు. దయచేసి weather.py ఫైల్‌లో మీ OpenWeatherMap API కీని జోడించండి."
         
         params = {
@@ -81,7 +81,7 @@ def get_weather_telugu(city):
 def get_weather_hindi(city):
     """Get weather information in Hindi"""
     try:
-        if API_KEY == "YOUR_API_KEY_HERE":
+        if API_KEY == "99aef283258d437fac031135250807":
             return f"मौसम सेवा अनुपलब्ध है। कृपया weather.py फ़ाइल में अपनी OpenWeatherMap API key जोड़ें।"
         
         params = {
