@@ -23,7 +23,7 @@ st.markdown("""
 <style>
 /* Background Image */
 body {
-    background-image: url('https://images.unsplash.com/photo-1604773958212-2de77d4324f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+    background-image: url('https://www.google.com/imgres?q=banner%20images%20background%20images%20for%20website%20related%20farming&imgurl=https%3A%2F%2Fpng.pngtree.com%2Fthumb_back%2Ffh260%2Fbackground%2F20240724%2Fpngtree-irrigation-tractor-spraying-agricultural-crop-at-sunset-broad-ai-generative-banner-image_16083907.jpg&imgrefurl=https%3A%2F%2Fpngtree.com%2Ffree-backgrounds-photos%2Fagriculture-banner&docid=8QntROY1A4T4_M&tbnid=ot5RtYNUwBuxJM&vet=12ahUKEwizqPjEv6-OAxVA4TgGHbBTCVYQM3oECGkQAA..i&w=520&h=260&hcb=2&ved=2ahUKEwizqPjEv6-OAxVA4TgGHbBTCVYQM3oECGkQAA');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
