@@ -77,8 +77,8 @@ st.markdown("""
 # ---- Core Functions ----
 def load_models():
     try:
-        crop_model = joblib.load("crop_model.pkl")
-        le = joblib.load("label_encoder.pkl")
+        crop_model = joblib.load("crop_model (1).pkl")
+        le = joblib.load("label_encoder (1).pkl")
         return crop_model, le
     except Exception as e:
         st.error(f"Model loading failed: {str(e)}")
