@@ -19,7 +19,6 @@ st.set_page_config(
     page_icon="🌱"
 )
 
-# Custom CSS (Minimalist Professional)
 st.markdown("""
 <style>
     :root {
@@ -109,7 +108,6 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
-
 # ---- Core Functions ----
 def load_models():
     try:
