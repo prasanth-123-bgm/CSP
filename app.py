@@ -21,143 +21,107 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    :root {
-        --primary: #2E7D32;        /* Forest Green */
-        --secondary: #00B0FF;      /* Aqua Tech Blue */
-        --accent: #FF9100;         /* Vibrant Orange */
-        --text: #1A1A1A;           /* Deep readable text */
-        --bg: #F4FDF4;             /* Soft eco background */
-        --card-bg: rgba(255, 255, 255, 0.9);
-        --footer-bg: #004D40;
-        --input-bg: #ffffff;
-        --input-border: #2E7D32;
-        --shadow: rgba(0,0,0,0.15);
-    }
+/* Background Image */
+body {
+    background-image: url('https://images.unsplash.com/photo-1604773958212-2de77d4324f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
 
-    html, body, [class*="css"] {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
-    }
+/* Overlay tint for readability */
+.stApp {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+}
 
-    .stApp {
-        background-color: var(--bg);
-    }
+/* Headings and text */
+h1, h2, h3, label, p, span, .stMarkdown, .stRadio label {
+    color: #1A1A1A;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+}
 
-    h1, h2, h3, label, p, span, .stRadio label, .stMarkdown {
-        color: var(--text);
-        font-weight: 700;
-        text-shadow: 0 1px 1px rgba(0,0,0,0.05);
-    }
+/* Navbar */
+.navbar {
+    background: linear-gradient(to right, #2E7D32, #00B0FF);
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
 
-    /* Input Fields */
-    .stTextInput > div > div > input,
-    .stNumberInput > div > div > input {
-        background-color: var(--input-bg);
-        color: var(--text);
-        border: 2px solid var(--input-border);
-        border-radius: 12px;
-        padding: 12px 18px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease-in-out;
-        box-shadow: 0 2px 6px var(--shadow);
-    }
+/* Footer */
+.footer {
+    background-color: #004D40;
+    color: #ffffff;
+    padding: 1rem;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+}
 
-    .stTextInput > div > div > input:focus,
-    .stNumberInput > div > div > input:focus {
-        border-color: var(--secondary);
-        outline: none;
-    }
+/* Input styling */
+input, .stNumberInput input {
+    background-color: #ffffff !important;
+    color: #1A1A1A !important;
+    border: 2px solid #2E7D32;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+}
 
-    input::placeholder {
-        color: #607D8B;  /* Visible gray */
-        font-weight: 500;
-        opacity: 1;
-    }
+/* Placeholder */
+input::placeholder {
+    color: #4E944F;
+    font-weight: 500;
+}
 
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 0.75rem 1.4rem;
-        font-size: 1rem;
-        font-weight: bold;
-        box-shadow: 0 6px 12px rgba(0, 150, 136, 0.3);
-        transition: all 0.3s ease-in-out;
-    }
+/* Buttons */
+.stButton > button {
+    background: linear-gradient(135deg, #00C853, #00B0FF);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.7rem 1.3rem;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transition: 0.3s ease-in-out;
+}
 
-    .stButton > button:hover {
-        transform: translateY(-2px) scale(1.03);
-        background: linear-gradient(135deg, var(--secondary), var(--accent));
-        box-shadow: 0 8px 18px rgba(0, 150, 136, 0.45);
-    }
+.stButton > button:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: linear-gradient(135deg, #00B0FF, #FFA000);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+}
 
-    /* Voice Button */
-    .voice-btn {
-        background-color: var(--accent);
-        color: white;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: pulse 1.8s infinite;
-        box-shadow: 0 0 14px rgba(255, 145, 0, 0.6);
-    }
+/* Result Cards */
+.result-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1.2rem 1.6rem;
+    border-left: 6px solid #00C853;
+    border-radius: 14px;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    animation: slideIn 0.5s ease;
+}
 
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(255, 145, 0, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(255, 145, 0, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(255, 145, 0, 0); }
-    }
-
-    /* Result Card */
-    .result-card {
-        background: var(--card-bg);
-        border-left: 5px solid var(--primary);
-        padding: 1.5rem 2rem;
-        border-radius: 18px;
-        margin-top: 1.5rem;
-        backdrop-filter: blur(6px);
-        box-shadow: 0 12px 24px var(--shadow);
-        animation: fadeSlideIn 0.5s ease-out;
-    }
-
-    @keyframes fadeSlideIn {
-        from { transform: translateY(30px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Navbar */
-    .navbar {
-        background: linear-gradient(to right, var(--primary), var(--secondary));
-        padding: 1rem 2rem;
-        color: white;
-        font-size: 1.3rem;
-        font-weight: bold;
-        border-radius: 0 0 20px 20px;
-        box-shadow: 0 4px 16px var(--shadow);
-        text-align: center;
-    }
-
-    /* Footer */
-    .footer {
-        background-color: var(--footer-bg);
-        color: #E0F2F1;
-        text-align: center;
-        padding: 1rem;
-        font-size: 0.95rem;
-        border-radius: 20px 20px 0 0;
-        margin-top: 4rem;
-        box-shadow: 0 -4px 10px var(--shadow);
-    }
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
 </style>
 """, unsafe_allow_html=True)
-
 # ---- Core Functions ----
 def load_models():
     try:
