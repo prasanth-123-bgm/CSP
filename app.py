@@ -25,7 +25,7 @@ st.markdown("""
         --primary: #00C853;   /* Vibrant green (farm tech) */
         --secondary: #2962FF; /* Electric blue */
         --accent: #FFA000;    /* Amber for attention */
-        --text: #263238;      /* Rich gray-black */
+        --text: solid black;      /* Rich gray-black */
         --bg: #F1F8E9;        /* Light lime background (eco friendly) */
         --card-bg: #FFFFFF;   /* Clean white for cards */
     }
