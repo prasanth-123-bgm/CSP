@@ -33,7 +33,7 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'Segoe UI', sans-serif;
-    background-color: var(--bg);
+    background-color: rgb(139,69,19);
     color: var(--text);
 }
 
