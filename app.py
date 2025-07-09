@@ -22,52 +22,66 @@ st.set_page_config(
 st.markdown("""
 <style>
     :root {
-        --primary: #00C853;   /* Vibrant green (farm tech) */
-        --secondary: #2962FF; /* Electric blue */
-        --accent: #FFA000;    /* Amber for attention */
-        --text: #000000;      /* Rich gray-black */
-        --bg: #F1F8E9;        /* Light lime background (eco friendly) */
-        --card-bg: #FFFFFF;   /* Clean white for cards */
+        --primary: #00C853;     /* Green - Agri base */
+        --secondary: #2962FF;   /* Blue - Futuristic edge */
+        --accent: #FF6D00;      /* Orange - Interactive touch */
+        --text: #212121;        /* Rich dark text */
+        --bg: #F1F8E9;          /* Light green background */
+        --card-bg: rgba(255, 255, 255, 0.85);  /* Glass card */
+        --footer-bg: #1B5E20;
     }
 
-    html, body, [class*="css"]  {
+    html, body, [class*="css"] {
         font-family: 'Segoe UI', sans-serif;
         background-color: var(--bg);
         color: var(--text);
-    }
-
-    h1, h2, h3 {
-        font-weight: 700;
-        color: #000000;
     }
 
     .stApp {
         background-color: var(--bg);
     }
 
-    .stTextInput > div > div > input,
-    .stNumberInput > div > div > input {
-        border: 1px solid #A5D6A7;
-        border-radius: 12px;
-        padding: 10px 16px;
+    h1, h2, h3 {
+        font-weight: 700;
+        color: var(--text);
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     }
 
+    /* Input Fields */
+    .stTextInput > div > div > input,
+    .stNumberInput > div > div > input {
+        border: 2px solid var(--primary);
+        border-radius: 12px;
+        padding: 10px 16px;
+        background-color: white;
+        transition: border 0.3s;
+    }
+
+    .stTextInput > div > div > input:focus,
+    .stNumberInput > div > div > input:focus {
+        border-color: var(--secondary);
+        outline: none;
+    }
+
+    /* Buttons */
     .stButton > button {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: white;
         border: none;
         border-radius: 10px;
-        padding: 0.6rem 1.2rem;
+        padding: 0.6rem 1.3rem;
         font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0, 200, 83, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 200, 83, 0.3);
         transition: 0.3s ease-in-out;
     }
 
     .stButton > button:hover {
-        transform: scale(1.03);
-        box-shadow: 0 6px 12px rgba(0, 200, 83, 0.4);
+        transform: scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 200, 83, 0.4);
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
     }
 
+    /* Block Container Spacing */
     .block-container {
         padding: 2rem 2rem 3rem;
     }
@@ -75,39 +89,67 @@ st.markdown("""
     /* Result Cards */
     .result-card {
         background: var(--card-bg);
-        border-left: 4px solid var(--primary);
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        margin-top: 1rem;
+        border-left: 5px solid var(--primary);
+        padding: 1.2rem 1.6rem;
+        border-radius: 15px;
+        margin-top: 1.2rem;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         animation: slideIn 0.4s ease;
     }
 
     @keyframes slideIn {
-        from { transform: translateY(10px); opacity: 0; }
+        from { transform: translateY(20px); opacity: 0; }
         to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Voice icon style (if used) */
+    /* Voice Button Mic */
     .voice-btn {
         background-color: var(--secondary);
         color: white;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
         animation: pulse 2s infinite;
+        font-size: 20px;
+        box-shadow: 0 0 12px rgba(41, 98, 255, 0.6);
     }
 
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.7); }
-        70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
+        70% { box-shadow: 0 0 0 15px rgba(41, 98, 255, 0); }
         100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
+    }
+
+    /* Navbar Simulation */
+    .navbar {
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        padding: 1rem 2rem;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Footer Style */
+    .footer {
+        background-color: var(--footer-bg);
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        font-size: 0.9rem;
+        border-radius: 16px 16px 0 0;
+        margin-top: 3rem;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
     }
 
 </style>
 """, unsafe_allow_html=True)
+
 # ---- Core Functions ----
 def load_models():
     try:
