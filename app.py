@@ -3,7 +3,6 @@ import pandas as pd
 import joblib
 from gtts import gTTS
 from io import BytesIO
-import sounddevice as sd  # Replaced PyAudio
 import numpy as np
 from weather import get_weather, get_weather_telugu, get_weather_hindi
 import os
