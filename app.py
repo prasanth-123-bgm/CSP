@@ -7,6 +7,34 @@ import numpy as np
 from weather import get_weather, get_weather_telugu, get_weather_hindi
 import os
 from dotenv import load_dotenv
+import streamlit as st
+import pandas as pd
+import base64
+
+# 🌄 Background Image Setup
+@st.cache_resource
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+def set_jpg_as_page_bg(jpg_file):
+    bin_str = get_base64_of_bin_file(jpg_file)
+    page_bg_img = f"""
+    <style>
+    body {{
+        background-image: url("data:image/jpg;base64,{bin_str}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+    </style>
+    """
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# 🖼️ Call the function with your image
+set_jpg_as_page_bg("csp background.jpg")
+
 
 # Load environment variables
 load_dotenv()
