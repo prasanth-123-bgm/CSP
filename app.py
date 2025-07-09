@@ -22,30 +22,27 @@ st.set_page_config(
 st.markdown("""
 <style>
     :root {
-        --primary: #00C853;     /* Green - Agri base */
-        --secondary: #2962FF;   /* Blue - Futuristic edge */
-        --accent: #FF6D00;      /* Orange - Interactive touch */
-        --text: #212121;        /* Rich dark text */
-        --bg: #F1F8E9;          /* Light green background */
-        --card-bg: rgba(255, 255, 255, 0.85);  /* Glass card */
-        --footer-bg: #1B5E20;
-    }
+    --primary: #00C853;
+    --secondary: #2962FF;
+    --accent: #FF6D00;
+    --text: #1B1B1B;           /* Darker black for better contrast */
+    --bg: #E8F5E9;             /* Slightly lighter green */
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --footer-bg: #1B5E20;
+}
 
-    html, body, [class*="css"] {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
-    }
+html, body, [class*="css"] {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+}
 
-    .stApp {
-        background-color: var(--bg);
-    }
+h1, h2, h3, label, p, span, .stRadio label, .stMarkdown {
+    color: var(--text);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);  /* subtle glow */
+    font-weight: 600;
+}
 
-    h1, h2, h3 {
-        font-weight: 700;
-        color: var(--text);
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    }
 
     /* Input Fields */
     .stTextInput > div > div > input,
@@ -57,11 +54,11 @@ st.markdown("""
         transition: border 0.3s;
     }
 
-    .stTextInput > div > div > input:focus,
-    .stNumberInput > div > div > input:focus {
-        border-color: var(--secondary);
-        outline: none;
-    }
+  input::placeholder {
+    color: #4E944F; /* Natural green shade */
+    opacity: 0.9;
+    font-weight: 500;
+}
 
     /* Buttons */
     .stButton > button {
