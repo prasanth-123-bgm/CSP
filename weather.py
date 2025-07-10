@@ -1,68 +1,73 @@
 import requests
 
-weatherapi_key = "99aef283258d437fac031135250807"  # replace with your real key
+# ✅ Set your WeatherAPI.com API key directly here
+weatherapi_key = "99aef283258d437fac031135250807"
 
-def get_weather(city):
-    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
+# 🟢 COMMON: Get weather by city/village name or coordinates
+def fetch_weather_data(location):
+    """Supports city name, PIN code, or coordinates (lat,lon) as string."""
+    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={location}"
     response = requests.get(url)
-
     if response.status_code == 200:
-        data = response.json()
+        return response.json()
+    else:
+        return None
+
+# 🌐 English Weather
+def get_weather(location):
+    data = fetch_weather_data(location)
+    if data:
+        city = data['location']['name']
+        region = data['location']['region']
+        country = data['location']['country']
         condition = data['current']['condition']['text']
         temp = data['current']['temp_c']
         humidity = data['current']['humidity']
         wind = data['current']['wind_kph']
-        report = (
-            f"Weather in {city}:\n"
+        return (
+            f"Weather in {city}, {region}, {country}:\n"
             f"Condition: {condition}\n"
             f"Temperature: {temp}°C\n"
             f"Humidity: {humidity}%\n"
             f"Wind Speed: {wind} kph"
         )
-        return report
     else:
-        return f"❌ Weather information not available for {city}."
+        return f"❌ Weather information not available for '{location}'."
 
-def get_weather_telugu(city):
-    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.json()
+# 🌐 Telugu Weather
+def get_weather_telugu(location):
+    data = fetch_weather_data(location)
+    if data:
+        city = data['location']['name']
         condition = data['current']['condition']['text']
         temp = data['current']['temp_c']
         humidity = data['current']['humidity']
         wind = data['current']['wind_kph']
-        report = (
-           f"{city} లో వాతావరణ నివేదిక:\n"
+        return (
+            f"{city} లో వాతావరణ నివేదిక:\n"
             f"పరిస్థితి: {condition}\n"
-            f"ఉష్ణోగ్రత: {temp} డిగ్రీల సెల్సియస్\n"
-            f"తేమ శాతం: {humidity}%\n"
-            f"గాలివేగం: {wind} కి.మీ/గంటకి"
+            f"ఉష్ణోగ్రత: {temp}°C\n"
+            f"తేమ: {humidity}%\n"
+            f"గాలివేగం: {wind} కి.మీ/గం"
         )
-        return report
     else:
-       return f"❌ {city} యొక్క వాతావరణాన్ని పొందలేకపోయాము."
+        return f"❌ '{location}' యొక్క వాతావరణాన్ని పొందలేకపోయాము."
 
-
-def get_weather_hindi(city):
-    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={city}"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.json()
+# 🌐 Hindi Weather
+def get_weather_hindi(location):
+    data = fetch_weather_data(location)
+    if data:
+        city = data['location']['name']
         condition = data['current']['condition']['text']
         temp = data['current']['temp_c']
         humidity = data['current']['humidity']
         wind = data['current']['wind_kph']
-        report = (
+        return (
             f"{city} में मौसम की जानकारी:\n"
             f"स्थिति: {condition}\n"
-            f"तापमान: {temp} डिग्री सेल्सियस\n"
+            f"तापमान: {temp}°C\n"
             f"नमी: {humidity}%\n"
-            f"हवा की गति: {wind} किलोमीटर प्रति घंटा"
-)
-
-        return report
+            f"हवा की गति: {wind} किलोमीटर/घंटा"
+        )
     else:
-       return f"❌ {city} के मौसम की जानकारी प्राप्त नहीं हो सकी।"
+        return f"❌ '{location}' के मौसम की जानकारी प्राप्त नहीं हो सकी।"
