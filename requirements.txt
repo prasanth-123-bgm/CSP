@@ -12,5 +12,6 @@ sentence_transformers
 deep-translator
 torch
 transformers
-date and time
+date
+time
 re
