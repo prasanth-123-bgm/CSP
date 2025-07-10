@@ -10,207 +10,112 @@ from sentence_transformers import SentenceTransformer, util
 from deep_translator import GoogleTranslator
 import torch
 import base64
+from audio_recorder_streamlit import audio_recorder  # ← Mic input
 import re
-import tempfile
 import os
 from dotenv import load_dotenv
-import speech_recognition as sr
 
-# ------------------------ Speech Recognition (No PyAudio Needed) ------------------------
-def recognize_uploaded_audio(uploaded_file):
-    recognizer = sr.Recognizer()
-    try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
-            tmp_file.write(uploaded_file.read())
-            tmp_file_path = tmp_file.name
+load_dotenv()
 
-        with sr.AudioFile(tmp_file_path) as source:
-            audio = recognizer.record(source)
-            return recognizer.recognize_google(audio)
-    except Exception as e:
-        return f"Speech recognition failed: {str(e)}"
+# --- Background CSS ---
+def set_bg(path):
+    img = base64.b64encode(open(path,'rb').read()).decode()
+    st.markdown(f"""<style>
+        body {{ background: url("data:image/jpg;base64,{img}") center/cover fixed; }}
+        .stApp {{ background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); }}
+        h1,h2,h3,label {{ color:#00fff2; text-shadow:0 0 4px #00c9a7; }}
+        input,button {{ border-radius:12px; }}
+        .result-card {{ background:rgba(0,0,0,0.6); border-left:6px solid #00e676;
+                        border-radius:16px; padding:1rem; color:#e0f7fa; }}
+    </style>""", unsafe_allow_html=True)
 
-# ------------------------ Translate & Intent ------------------------
-def translate_to_english(text):
-    return GoogleTranslator(source='auto', target='en').translate(text)
+set_bg("csp background.jpg")
+st.set_page_config("AgriVoice Pro", layout="wide", page_icon="🌱")
 
-def detect_intent(text):
-    text = text.lower()
-    intent_map = {
-        'weather': ['weather', 'climate', 'rain', 'forecast', 'temperature'],
-        'crop': ['crop', 'plant', 'grow', 'soil', 'recommendation'],
-        'pest': ['pest', 'insect', 'disease', 'spray', 'pesticide'],
-        'scheme': ['scheme', 'yojana', 'benefit', 'pm', 'government']
-    }
-    for intent, keywords in intent_map.items():
-        if any(re.search(rf'\b{kw}\b', text) for kw in keywords):
-            return intent
-    return "unknown"
-
-# ------------------------ Text to Speech ------------------------
-def text_to_speech(text, lang='en'):
-    tts = gTTS(text=text, lang=lang)
-    fp = BytesIO()
-    tts.write_to_fp(fp)
-    st.audio(fp.getvalue(), format='audio/mp3')
-
-# ------------------------ Background ------------------------
-def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        return base64.b64encode(f.read()).decode()
-
-def set_jpg_as_page_bg(jpg_file):
-    bin_str = get_base64_of_bin_file(jpg_file)
-    page_bg_img = f"""
-    <style>
-    body {{
-        background-image: url("data:image/jpg;base64,{bin_str}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }}
-    </style>
-    """
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-
-# ------------------------ Loaders ------------------------
+# --- Helpers ---
+def tts(text, lang): tts = gTTS(text=text, lang=lang); fp=BytesIO(); tts.write_to_fp(fp); st.audio(fp.getvalue(), format="audio/mp3")
 @st.cache_resource
-def load_models():
-    model = joblib.load("crop_model (1).pkl")
-    encoder = joblib.load("label_encoder (1).pkl")
-    return model, encoder
-
+def load_crop(): return joblib.load("crop_model (1).pkl"), joblib.load("label_encoder (1).pkl")
 @st.cache_resource
-def load_qna_data():
+def load_schemes():
     df = pd.read_csv("gov_schemes_dataset.csv")
-    df['context'] = df[['Scheme Name', 'Description', 'Eligibility', 'Benefits']].astype(str).agg(' '.join, axis=1)
-    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-    corpus = df['context'].tolist()
-    embeddings = model.encode(corpus, convert_to_tensor=True)
-    return df, model, embeddings
+    df['context'] = df[['Scheme Name','Description','Eligibility','Benefits']].astype(str).agg(' '.join, axis=1)
+    m = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+    return df, m, m.encode(df['context'].tolist(), convert_to_tensor=True)
+def detect_intent(text):
+    for k, kws in {'weather':['weather','rain'],'crop':['crop','soil'],'pest':['pest','spray'],'scheme':['scheme','yojana']}.items():
+        if any(re.search(fr'\b{kw}\b', text.lower()) for kw in kws): return k
+    return None
 
-# ------------------------ Pest Plan ------------------------
-def generate_pest_plan(crop, area):
-    df = pd.read_csv("pest_db.csv")
-    filtered = df[df["Crop"].str.lower() == crop.lower()].copy()
-    if filtered.empty:
-        return None
-    filtered["Total_Dose"] = filtered["Dose_per_ha"] * area
-    return filtered
+# --- Layout ---
+tabs = st.tabs(["🏠 Home","🌤️ Weather","🌾 Crop","🏛 Schemes","🐛 Pest"])
+df_sch, sch_mdl, sch_emb = load_schemes()
+crop_mdl, crop_le = load_crop()
 
-# ------------------------ MAIN APP ------------------------
-def main():
-    st.set_page_config("AgriVoice Pro", layout="wide")
-    set_jpg_as_page_bg("csp background.jpg")
+# --- HOME ---
+with tabs[0]:
+    st.header("Welcome Farmer 👨‍🌾")
+    lang = st.radio("Language", ["English","తెలుగు","हिन्दी"], horizontal=True)
+    greeting = "Good Morning" if datetime.now().hour<12 else "Good Evening"
+    st.subheader(f"{greeting}!")
+    query = st.text_input("Ask a question:")
+    audio = audio_recorder(text="Speak now", recording_color="#0f0", neutral_color="#888")
+    if audio:
+        query = audio  # record<string> from wav bytes
+        st.success(f"You said: {query}")
+    if query:
+        intent = detect_intent(GoogleTranslator(source='auto', target='en').translate(query))
+        st.info(f"Detected intent: {intent}")
+        if intent: tabs[['weather','crop','scheme','pest'].index(intent)+1].select()
 
-    st.title("🌿 AgriVoice Pro")
-    st.markdown("### Your AI Agriculture Companion")
+# --- WEATHER ---
+with tabs[1]:
+    st.subheader("Weather Forecast")
+    city = st.text_input("City name")
+    if st.button("Get Weather"):
+        if city:
+            rep = (get_weather_telugu if lang=="తెలుగు" else get_weather_hindi if lang=="हिन्दी" else get_weather)(city)
+            st.markdown(f"<div class='result-card'>{rep}</div>", unsafe_allow_html=True)
+            tts(rep, {'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang])
 
-    tabs = st.tabs(["🏠 Home", "🌤️ Weather", "🌾 Crop", "🏛 Schemes", "🐛 Pests"])
-    tab_names = ["home", "weather", "crop", "scheme", "pest"]
-    selected_tab = 0  # default
+# --- CROP ---
+with tabs[2]:
+    st.subheader("Crop Recommendation")
+    col1, col2 = st.columns(2)
+    n,p,k = col1.number_input("N",0,200),col1.number_input("P",0,200),col1.number_input("K",0,200)
+    temp,hum,ph,rain = col2.number_input("Temp"),col2.number_input("Hum"),col2.number_input("pH"),col2.number_input("Rain")
+    if st.button("Recommend"):
+        pred = crop_mdl.predict([[n,p,k,temp,hum,ph,rain]])[0]
+        crop = crop_le.inverse_transform([pred])[0]
+        msg = {"English":f"Recommended crop: {crop}","తెలుగు":f"సిఫారసు: {crop}","हिन्दी":f"अनुशंसित: {crop}"}[lang]
+        st.success(msg); tts(msg, {'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang])
 
-    # ---------- HOME ----------
-    with tabs[0]:
-        st.subheader("👋 Welcome Farmer!")
+# --- SCHEMES ---
+with tabs[3]:
+    st.subheader("Government Schemes")
+    q = st.text_input("Ask about schemes")
+    if st.button("Get Scheme Info"):
+        qe = GoogleTranslator(source='auto',target='en').translate(q)
+        emb = sch_mdl.encode(qe, convert_to_tensor=True)
+        idx = torch.argmax(util.pytorch_cos_sim(emb, sch_emb))
+        ans = df_sch.loc[idx,'Description']
+        tr = GoogleTranslator(source='en', target={'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang]).translate(ans)
+        st.markdown(f"<div class='result-card'>{tr}</div>", unsafe_allow_html=True)
+        tts(tr, {'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang])
 
-        lang = st.radio("Choose language", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
+# --- PEST ---
+with tabs[4]:
+    st.subheader("Pest Management")
+    crop_i = st.text_input("Crop name")
+    area = st.number_input("Area (ha)",0.1)
+    if st.button("Get Pest Plan"):
+        dfp = pd.read_csv("pest_db.csv")
+        sel = dfp[dfp.Crop.str.lower()==crop_i.lower()]
+        if sel.empty: st.error("No data")
+        else:
+            for _,r in sel.iterrows():
+                msg = (f"For {r.Crop} affected by {r.Pest_Disease}, use {r.Pesticide}. "
+                       f"Dose: {r.Dose_per_ha*area} {r.Unit}. Note: {r.Notes}")
+                tr = GoogleTranslator(source='en',target={'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang]).translate(msg)
+                st.success(tr); tts(tr, {'English':'en','తెలుగు':'te','हिन्दी':'hi'}[lang])
 
-        greeting = "Good Morning" if datetime.now().hour < 12 else "Good Evening"
-        st.markdown(f"### {greeting}, Farmer 👨‍🌾")
-
-        user_query = st.text_input("📝 Ask your question:")
-        audio_file = st.file_uploader("🎙 Upload your voice (WAV only)", type=["wav"])
-
-        if audio_file:
-            transcript = recognize_uploaded_audio(audio_file)
-            st.success(f"You said: {transcript}")
-            user_query = transcript
-
-        if user_query:
-            translated = translate_to_english(user_query)
-            intent = detect_intent(translated)
-
-            st.info(f"✅ Detected Intent: **{intent.capitalize()}**")
-
-            # Switch Tab based on intent
-            if intent == "weather":
-                selected_tab = 1
-            elif intent == "crop":
-                selected_tab = 2
-            elif intent == "scheme":
-                selected_tab = 3
-            elif intent == "pest":
-                selected_tab = 4
-            else:
-                st.warning("Sorry, I couldn’t understand. Please rephrase.")
-
-    # ---------- WEATHER ----------
-    with tabs[1]:
-        st.header("🌦️ Weather Forecast")
-        city = st.text_input("Enter your city")
-        if st.button("Get Weather"):
-            if city:
-                report = get_weather_telugu(city) if lang == "తెలుగు" else get_weather_hindi(city) if lang == "हिन्दी" else get_weather(city)
-                st.success(report)
-                text_to_speech(report, 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en')
-
-    # ---------- CROP ----------
-    with tabs[2]:
-        st.header("🌾 Crop Recommendation")
-        col1, col2 = st.columns(2)
-        with col1:
-            n = st.number_input("Nitrogen", 0, 200)
-            p = st.number_input("Phosphorus", 0, 200)
-            k = st.number_input("Potassium", 0, 200)
-        with col2:
-            temp = st.number_input("Temperature (°C)", 0.0, 50.0)
-            hum = st.number_input("Humidity (%)", 0.0, 100.0)
-            ph = st.number_input("pH Level", 0.0, 14.0)
-            rain = st.number_input("Rainfall (mm)", 0.0, 500.0)
-
-        if st.button("Get Recommendation"):
-            model, le = load_models()
-            pred = model.predict([[n, p, k, temp, hum, ph, rain]])[0]
-            crop = le.inverse_transform([pred])[0]
-            msg = f"Recommended crop: {crop}" if lang == "English" else f"సిఫారసు చేసిన పంట: {crop}" if lang == "తెలుగు" else f"अनुशंसित फसल: {crop}"
-            st.success(msg)
-            text_to_speech(msg, 'en' if lang == "English" else 'te' if lang == "తెలుగు" else 'hi')
-
-    # ---------- SCHEMES ----------
-    with tabs[3]:
-        st.header("🏛 Government Schemes Assistant")
-        df, model, embeddings = load_qna_data()
-
-        question = st.text_input("Ask about any scheme:")
-        if st.button("Get Info"):
-            if question:
-                question_en = translate_to_english(question)
-                q_embed = model.encode(question_en, convert_to_tensor=True)
-                best_match = torch.argmax(util.pytorch_cos_sim(q_embed, embeddings)).item()
-                answer = df.iloc[best_match]['Description']
-                translated_ans = GoogleTranslator(source='en', target='te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en').translate(answer)
-                st.success(translated_ans)
-                text_to_speech(translated_ans, 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en')
-
-    # ---------- PEST ----------
-    with tabs[4]:
-        st.header("🐛 Pest Management")
-        crop = st.text_input("Enter Crop Name")
-        area = st.number_input("Area in hectares", min_value=0.1)
-
-        if st.button("Get Pest Plan"):
-            if crop and area:
-                plan = generate_pest_plan(crop, area)
-                if plan is not None:
-                    for _, row in plan.iterrows():
-                        summary = f"For {row['Crop']} affected by {row['Pest_Disease']}, use {row['Pesticide']} - Dose: {row['Total_Dose']} {row['Unit']}. Note: {row['Notes']}"
-                        trans = GoogleTranslator(source='en', target='te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en').translate(summary)
-                        st.success(trans)
-                        text_to_speech(trans, 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en')
-                else:
-                    st.error("No data found for that crop.")
-
-if __name__ == "__main__":
-    load_dotenv()
-    main()
