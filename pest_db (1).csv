@@ -1,0 +1,101 @@
+Crop,Pest_Disease,Pesticide,Dose_per_ha,Unit,Notes
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Okra,Whitefly,Neem Oil,6.73,L,Spray at 15-day intervals
+Onion,Thrips,Pyrethrin,0.6,L,"Dilute in 200 L water, spray in evening"
+Chilli,Aphids,Neem-Garlic Mix,5.1,L,Spray during vegetative growth
+Millet,Shoot Fly,Neem Cake,248.45,kg,Apply during land prep
+Cotton,Bollworm,Neem Oil 1.5%,8.51,L,Apply at flowering stage
+Onion,Thrips,Pyrethrin,0.59,L,"Dilute in 200 L water, spray in evening"
+Pigeon Pea,Pod Borer,Spinosad (organic),1.18,L,Apply at pod initiation
+Okra,Whitefly,Neem Oil,7.38,L,Spray at 15-day intervals
+Cotton,Jassid,Garlic Extract 0.5%,4.75,L,Weekly spray recommended
+Onion,Thrips,Pyrethrin,0.45,L,"Dilute in 200 L water, spray in evening"
+Banana,Weevil Borer,Beauveria bassiana,0.88,kg,Soil drench near rhizome
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Sugarcane,Scale Insects,Neem Oil,9.53,L,Spray at early stage of attack
+Chilli,Aphids,Neem-Garlic Mix,5.61,L,Spray during vegetative growth
+Rice,Leaf Folder,Neem Oil 2%,9.28,L,Spray during early infestation
+Brinjal,Shoot and Fruit Borer,Neem Seed Kernel Extract,5.36,L,Spray at 10-day intervals
+Sesame,Leaf Roller,Chilli-Garlic Spray,5.83,L,Spray during vegetative growth
+Okra,Whitefly,Neem Oil,7.99,L,Spray at 15-day intervals
+Millet,Shoot Fly,Neem Cake,217.16,kg,Apply during land prep
+Turmeric,Rhizome Rot,Trichoderma viride,2.15,kg,Drench rhizome area
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Millet,Shoot Fly,Neem Cake,279.58,kg,Apply during land prep
+Okra,Whitefly,Neem Oil,7.28,L,Spray at 15-day intervals
+Banana,Weevil Borer,Beauveria bassiana,0.9,kg,Soil drench near rhizome
+Groundnut,Pod Borer,Bt (Bacillus thuringiensis),2.22,kg,"Evening spray, 2 g/L water"
+Turmeric,Rhizome Rot,Trichoderma viride,1.85,kg,Drench rhizome area
+Turmeric,Rhizome Rot,Trichoderma viride,2.35,kg,Drench rhizome area
+Sugarcane,Scale Insects,Neem Oil,8.14,L,Spray at early stage of attack
+Cucumber,Powdery Mildew,Sulphur Dust,17.06,kg,Apply at 15-day intervals
+Tomato,Late Blight,Copper Oxychloride,1.68,kg,Spray at flowering and fruiting
+Maize,Stem Borer,Bt,1.19,kg,Spray at 30 DAS
+Cotton,Bollworm,Neem Oil 1.5%,10.72,L,Apply at flowering stage
+Banana,Weevil Borer,Beauveria bassiana,0.83,kg,Soil drench near rhizome
+Pigeon Pea,Pod Borer,Spinosad (organic),1.02,L,Apply at pod initiation
+Pepper,Pollu Beetle,Neem Oil,10.38,L,Apply at early flowering stage
+Maize,Stem Borer,Bt,0.93,kg,Spray at 30 DAS
+Cucumber,Powdery Mildew,Sulphur Dust,15.07,kg,Apply at 15-day intervals
+Millet,Shoot Fly,Neem Cake,250.57,kg,Apply during land prep
+Sesame,Leaf Roller,Chilli-Garlic Spray,5.25,L,Spray during vegetative growth
+Pigeon Pea,Pod Borer,Spinosad (organic),0.97,L,Apply at pod initiation
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Chilli,Aphids,Neem-Garlic Mix,4.46,L,Spray during vegetative growth
+Maize,Stem Borer,Bt,1.14,kg,Spray at 30 DAS
+Cotton,Bollworm,Neem Oil 1.5%,11.91,L,Apply at flowering stage
+Pigeon Pea,Pod Borer,Spinosad (organic),1.17,L,Apply at pod initiation
+Chilli,Aphids,Neem-Garlic Mix,4.94,L,Spray during vegetative growth
+Banana,Weevil Borer,Beauveria bassiana,0.98,kg,Soil drench near rhizome
+Maize,Stem Borer,Bt,1.19,kg,Spray at 30 DAS
+Sugarcane,Scale Insects,Neem Oil,11.28,L,Spray at early stage of attack
+Groundnut,Pod Borer,Bt (Bacillus thuringiensis),1.99,kg,"Evening spray, 2 g/L water"
+Millet,Shoot Fly,Neem Cake,233.96,kg,Apply during land prep
+Brinjal,Shoot and Fruit Borer,Neem Seed Kernel Extract,5.73,L,Spray at 10-day intervals
+Onion,Thrips,Pyrethrin,0.47,L,"Dilute in 200 L water, spray in evening"
+Pepper,Pollu Beetle,Neem Oil,8.05,L,Apply at early flowering stage
+Rice,Gall Midge,Pongamia Oil,9.91,L,Foliar spray at early tillering stage
+Pigeon Pea,Pod Borer,Spinosad (organic),0.82,L,Apply at pod initiation
+Okra,Whitefly,Neem Oil,8.8,L,Spray at 15-day intervals
+Pigeon Pea,Pod Borer,Spinosad (organic),0.8,L,Apply at pod initiation
+Rice,Gall Midge,Pongamia Oil,10.17,L,Foliar spray at early tillering stage
+Onion,Thrips,Pyrethrin,0.4,L,"Dilute in 200 L water, spray in evening"
+Chilli,Aphids,Neem-Garlic Mix,5.1,L,Spray during vegetative growth
+Groundnut,Pod Borer,Bt (Bacillus thuringiensis),1.72,kg,"Evening spray, 2 g/L water"
+Millet,Shoot Fly,Neem Cake,278.6,kg,Apply during land prep
+Banana,Weevil Borer,Beauveria bassiana,1.04,kg,Soil drench near rhizome
+Cotton,Jassid,Garlic Extract 0.5%,4.21,L,Weekly spray recommended
+Turmeric,Rhizome Rot,Trichoderma viride,2.18,kg,Drench rhizome area
+Okra,Whitefly,Neem Oil,8.45,L,Spray at 15-day intervals
+Okra,Whitefly,Neem Oil,7.76,L,Spray at 15-day intervals
+Brinjal,Shoot and Fruit Borer,Neem Seed Kernel Extract,4.51,L,Spray at 10-day intervals
+Tomato,Late Blight,Copper Oxychloride,1.9,kg,Spray at flowering and fruiting
+Okra,Whitefly,Neem Oil,7.54,L,Spray at 15-day intervals
+Rice,Gall Midge,Pongamia Oil,10.25,L,Foliar spray at early tillering stage
+Millet,Shoot Fly,Neem Cake,256.19,kg,Apply during land prep
+Groundnut,Pod Borer,Bt (Bacillus thuringiensis),1.83,kg,"Evening spray, 2 g/L water"
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Sesame,Leaf Roller,Chilli-Garlic Spray,4.29,L,Spray during vegetative growth
+Rice,Leaf Folder,Neem Oil 2%,8.99,L,Spray during early infestation
+Cucumber,Powdery Mildew,Sulphur Dust,17.82,kg,Apply at 15-day intervals
+Maize,Stem Borer,Bt,0.84,kg,Spray at 30 DAS
+Rice,Gall Midge,Pongamia Oil,11.75,L,Foliar spray at early tillering stage
+Sugarcane,Scale Insects,Neem Oil,10.69,L,Spray at early stage of attack
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Sugarcane,Scale Insects,Neem Oil,8.85,L,Spray at early stage of attack
+Cotton,Jassid,Garlic Extract 0.5%,5.55,L,Weekly spray recommended
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Brinjal,Shoot and Fruit Borer,Neem Seed Kernel Extract,4.09,L,Spray at 10-day intervals
+Chilli,Aphids,Neem-Garlic Mix,4.24,L,Spray during vegetative growth
+Tomato,Late Blight,Copper Oxychloride,2.36,kg,Spray at flowering and fruiting
+Rice,Stem Borer,Trichogramma spp. (biocontrol),,,"Release at 50,000 per ha weekly"
+Sesame,Leaf Roller,Chilli-Garlic Spray,5.34,L,Spray during vegetative growth
+Maize,Stem Borer,Bt,0.89,kg,Spray at 30 DAS
+Pigeon Pea,Pod Borer,Spinosad (organic),0.84,L,Apply at pod initiation
+Banana,Weevil Borer,Beauveria bassiana,1.06,kg,Soil drench near rhizome
+Onion,Thrips,Pyrethrin,0.41,L,"Dilute in 200 L water, spray in evening"
+Turmeric,Rhizome Rot,Trichoderma viride,2.1,kg,Drench rhizome area
+Brinjal,Shoot and Fruit Borer,Neem Seed Kernel Extract,5.57,L,Spray at 10-day intervals
+Millet,Shoot Fly,Neem Cake,289.43,kg,Apply during land prep
+Okra,Whitefly,Neem Oil,7.3,L,Spray at 15-day intervals
+Millet,Shoot Fly,Neem Cake,203.19,kg,Apply during land prep
