@@ -1,4 +1,4 @@
-
+from datetime import datetime
 import streamlit as st
 import pandas as pd
 import joblib
@@ -12,6 +12,37 @@ from sentence_transformers import SentenceTransformer, util
 from deep_translator import GoogleTranslator
 import torch
 import base64
+import speech_recognition as sr
+import re
+
+def recognize_speech():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        with st.spinner("🎙 Listening..."):
+            audio = recognizer.listen(source, phrase_time_limit=6)
+        try:
+            return recognizer.recognize_google(audio)
+        except sr.UnknownValueError:
+            return "Sorry, couldn't understand you."
+        except sr.RequestError:
+            return "Speech recognition service failed."
+
+def detect_intent(text):
+    text = text.lower()
+    intent_map = {
+        'weather': ['weather', 'climate', 'rain', 'forecast', 'temperature'],
+        'crop': ['crop', 'plant', 'grow', 'soil', 'recommendation'],
+        'pest': ['pest', 'insect', 'disease', 'spray', 'pesticide'],
+        'scheme': ['scheme', 'yojana', 'benefit', 'pm', 'government']
+    }
+    for intent, keywords in intent_map.items():
+        if any(re.search(rf'\b{kw}\b', text) for kw in keywords):
+            return intent
+    return "unknown"
+
+def translate_to_english(text):
+    return GoogleTranslator(source='auto', target='en').translate(text)
+
 
 # 🌄 Background Image Setup
 @st.cache_resource
@@ -220,9 +251,57 @@ def main():
 
     lang = st.radio("Language", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
 
-    tab1, tab2, tab3 ,tab4= st.tabs(["🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
+    tab1, tab2, tab3 ,tab4, tab5 = st.tabs(["🏠 Home", "🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
 
     with tab1:
+        st.markdown("### 👋 Welcome to AgriVoice Pro")
+
+    current_hour = datetime.now().hour
+    if current_hour < 12:
+        greet = "Good Morning 🌄"
+    elif 12 <= current_hour < 17:
+        greet = "Good Afternoon ☀️"
+    else:
+        greet = "Good Evening 🌆"
+
+    st.markdown(f"<h2 style='text-align: center; color: #00e676;'>{greet}, Farmer 👨‍🌾</h2>", unsafe_allow_html=True)
+
+    lang_code = st.radio("Preferred Language", ["en", "te", "hi"], horizontal=True)
+
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        user_input = st.text_input("💬 Ask your question (text or use mic)", key="home_input")
+
+    with col2:
+        if st.button("🎙 Speak"):
+            user_input = recognize_speech()
+            st.info(f"You said: {user_input}")
+
+    if user_input:
+        try:
+            translated_input = translate_to_english(user_input)
+            detected_intent = detect_intent(translated_input)
+
+            st.markdown(f"<div class='result-card'><b>Intent Detected:</b> {detected_intent.capitalize()}</div>", unsafe_allow_html=True)
+
+            if detected_intent == "weather":
+                st.success("Redirecting to Weather Forecast...")
+                st.experimental_rerun()
+            elif detected_intent == "crop":
+                st.success("Redirecting to Crop Recommendation...")
+                st.experimental_rerun()
+            elif detected_intent == "scheme":
+                st.success("Redirecting to Government Schemes...")
+                st.experimental_rerun()
+            elif detected_intent == "pest":
+                st.success("Redirecting to Pest Management...")
+                st.experimental_rerun()
+            else:
+                st.warning("❗ I couldn’t identify your request. Try rephrasing.")
+        except Exception as e:
+            st.error(f"Something went wrong: {str(e)}")
+
+    with tab2:
         st.markdown("### Weather Forecast", help="Get real-time weather data")
         city = st.text_input("Enter city name", key="weather_city")
         if st.button("Get Weather", key="weather_btn"):
@@ -243,7 +322,7 @@ def main():
                     """, unsafe_allow_html=True)
                     text_to_speech(report, 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en')
 
-    with tab2:
+    with tab3:
         st.markdown("### Soil Analysis", help="Enter soil parameters for crop recommendation")
         col1, col2 = st.columns(2)
         with col1:
@@ -273,7 +352,7 @@ def main():
             except Exception as e:
                 st.error(f"Prediction failed: {str(e)}")
 
-    with tab3:
+    with tab4:
         st.markdown("### Government Scheme Assistant", help="Ask about any scheme in your preferred language")
         df, qna_model, qna_embeddings = load_qna_data()
 
@@ -300,7 +379,7 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 text_to_speech(answer_native, lang=lang_code)
-    with tab4:
+    with tab5:
         st.subheader("🐛 Pest Management Assistant")
         st.markdown("Get eco-friendly pesticide recommendations based on your crop and field area.")
 
