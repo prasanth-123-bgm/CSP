@@ -22,10 +22,12 @@ def get_base64_of_bin_file(bin_file):
 
 def set_jpg_as_page_bg(jpg_file):
     bin_str = get_base64_of_bin_file(jpg_file)
+    st.write("✅ Background image loaded successfully.")
     page_bg_img = f"""
     <style>
     body {{
-        background-image: url("data:image/jpg;base64,{bin_str}");
+        background-color: #0f2027;
+        background-image: url("data:image/jpeg;base64,{bin_str}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
