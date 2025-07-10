@@ -22,12 +22,10 @@ def get_base64_of_bin_file(bin_file):
 
 def set_jpg_as_page_bg(jpg_file):
     bin_str = get_base64_of_bin_file(jpg_file)
-    
     page_bg_img = f"""
     <style>
     body {{
-        background-color: #0f2027;
-        background-image: url("data:image/jpeg;base64,{bin_str}");
+        background-image: url("data:image/jpg;base64,{bin_str}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -36,8 +34,136 @@ def set_jpg_as_page_bg(jpg_file):
     """
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# 🖼️ Set background
+# 🖼️ Call the function with your image
 set_jpg_as_page_bg("csp background.jpg")
+
+
+# Load environment variables
+load_dotenv()
+
+# ---- UI Configuration ----
+st.set_page_config(
+    page_title="🌿 AgriVoice Pro",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    page_icon="🌱"
+)
+
+st.markdown("""
+<style>
+/* === GLOBAL RESET & FONTS === */
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+/* === APP CONTAINER WITH GLASS EFFECT === */
+.stApp {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+}
+
+/* === HEADERS === */
+h1, h2, h3, .stMarkdown, .stRadio label {
+    color: #00fff2;
+    font-weight: 700;
+    text-shadow: 0 0 4px #00c9a7;
+}
+
+/* === INPUT FIELDS === */
+input, .stNumberInput input {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    color: #00e5ff !important;
+    border: 1.5px solid #00ffc3;
+    border-radius: 12px;
+    padding: 0.6rem;
+    font-weight: 600;
+}
+input::placeholder {
+    color: #80cbc4;
+    font-weight: 500;
+}
+
+/* === BUTTON STYLING === */
+.stButton > button {
+    background: linear-gradient(135deg, #00e676, #00b0ff);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 0.7rem 1.4rem;
+    font-weight: bold;
+    box-shadow: 0 0 18px rgba(0, 255, 200, 0.3);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
+}
+
+.stButton > button:hover {
+    background: linear-gradient(135deg, #00b0ff, #ff6f00);
+    box-shadow: 0 0 24px rgba(255, 111, 0, 0.4);
+    transform: scale(1.05) rotate(-0.5deg);
+}
+
+/* === TABS === */
+.stTabs [role="tab"] {
+    background: #212121;
+    color: #00e5ff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.stTabs [role="tab"][aria-selected="true"] {
+    background: linear-gradient(to right, #00c9a7, #00b0ff);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 255, 255, 0.3);
+}
+
+/* === RESULT CARD === */
+.result-card {
+    background: rgba(0, 0, 0, 0.6);
+    border-left: 6px solid #00e676;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    color: #e0f7fa;
+    box-shadow: 0 0 20px rgba(0,255,200,0.2);
+    animation: floatIn 0.6s ease;
+}
+
+/* === CUSTOM ANIMATION === */
+@keyframes floatIn {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* === FOOTER === */
+.footer {
+    background: linear-gradient(to right, #212121, #004d40);
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 8px rgba(0, 255, 200, 0.1);
+}
+
+/* === SCROLLBAR STYLING === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#00c9a7, #00b0ff);
+    border-radius: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Load environment variables
 load_dotenv()
