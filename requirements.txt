@@ -12,4 +12,4 @@ sentence_transformers
 deep-translator
 torch
 transformers
-audio_recorder
+audio-recorder-streamlit
