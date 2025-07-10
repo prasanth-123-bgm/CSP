@@ -9,3 +9,6 @@ requests
 numpy
 joblib
 sentence_transformers
+deep-translator
+torch
+transformers
