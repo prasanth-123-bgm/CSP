@@ -220,7 +220,7 @@ def main():
 
     lang = st.radio("Language", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
 
-    tab1, tab2, tab3 = st.tabs(["🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes"])
+    tab1, tab2, tab3 ,tab4= st.tabs(["🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
 
     with tab1:
         st.markdown("### Weather Forecast", help="Get real-time weather data")
@@ -300,6 +300,62 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 text_to_speech(answer_native, lang=lang_code)
+    with tab4:
+    st.subheader("🐛 Pest Management Assistant")
+    st.markdown("Get eco-friendly pesticide recommendations based on your crop and field area.")
+
+    crop_input = st.text_input("Enter Crop Name (e.g., Rice, Chilli, Cotton)")
+    area_input = st.number_input("Enter Field Area (in hectares)", min_value=0.1, step=0.1)
+    lang_input = st.radio("Preferred Language for Output", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
+
+    def generate_pest_plan(crop, area):
+        df = pd.read_csv("pest_db.csv")
+        filtered = df[df["Crop"].str.lower() == crop.lower()].copy()
+        if filtered.empty:
+            return None
+        filtered["Total_Dose"] = filtered.apply(
+            lambda row: round(row["Dose_per_ha"] * area, 2) if pd.notnull(row["Dose_per_ha"]) else None,
+            axis=1
+        )
+        return filtered
+
+    def speak_text(text, lang='en'):
+        try:
+            tts = gTTS(text=text, lang=lang)
+            fp = BytesIO()
+            tts.write_to_fp(fp)
+            st.audio(fp.getvalue(), format='audio/mp3')
+        except:
+            st.warning("Speech synthesis failed.")
+
+    def translate_text(text, lang_code="te"):
+        try:
+            return GoogleTranslator(source='en', target=lang_code).translate(text)
+        except:
+            return text
+
+    if st.button("Get Pest Management Plan"):
+        if crop_input and area_input:
+            plan = generate_pest_plan(crop_input, area_input)
+            if plan is not None:
+                for _, row in plan.iterrows():
+                    english_text = f"For {row['Crop']} affected by {row['Pest_Disease']}, use {row['Pesticide']}. Required dose: {row['Total_Dose']} {row['Unit']}. Note: {row['Notes']}"
+                    if lang_input == "తెలుగు":
+                        translated = translate_text(english_text, "te")
+                        st.success(translated)
+                        speak_text(translated, "te")
+                    elif lang_input == "हिन्दी":
+                        translated = translate_text(english_text, "hi")
+                        st.success(translated)
+                        speak_text(translated, "hi")
+                    else:
+                        st.success(english_text)
+                        speak_text(english_text, "en")
+            else:
+                st.error("No pest management data found for the selected crop.")
+        else:
+            st.warning("Please enter crop and area details.")
+
 
 if __name__ == "__main__":
     main()
