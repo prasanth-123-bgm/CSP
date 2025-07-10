@@ -241,7 +241,7 @@ def main():
                 st.warning("Invalid PIN or not found.")
                 location = None
         else:
-              lat = st.number_input("Latitude", format="%.6f")
+            lat = st.number_input("Latitude", format="%.6f")
             lon = st.number_input("Longitude", format="%.6f")
             location = f"{lat},{lon}" if lat and lon else None
 
