@@ -1,11 +1,13 @@
 import requests
 
-# ✅ Set your WeatherAPI.com API key directly here
+# ✅ Hardcoded WeatherAPI Key (you can switch to dotenv later)
 weatherapi_key = "99aef283258d437fac031135250807"
 
-# 🟢 COMMON: Get weather by city/village name or coordinates
+# 🔄 Common fetcher for English, Telugu, Hindi
 def fetch_weather_data(location):
-    """Supports city name, PIN code, or coordinates (lat,lon) as string."""
+    """
+    Takes city name, PIN code, or lat,lon as string and fetches weather.
+    """
     url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={location}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -13,7 +15,7 @@ def fetch_weather_data(location):
     else:
         return None
 
-# 🌐 English Weather
+# 🌤️ English Weather Report
 def get_weather(location):
     data = fetch_weather_data(location)
     if data:
@@ -34,7 +36,7 @@ def get_weather(location):
     else:
         return f"❌ Weather information not available for '{location}'."
 
-# 🌐 Telugu Weather
+# 🌤️ Telugu Weather Report
 def get_weather_telugu(location):
     data = fetch_weather_data(location)
     if data:
@@ -53,7 +55,7 @@ def get_weather_telugu(location):
     else:
         return f"❌ '{location}' యొక్క వాతావరణాన్ని పొందలేకపోయాము."
 
-# 🌐 Hindi Weather
+# 🌤️ Hindi Weather Report
 def get_weather_hindi(location):
     data = fetch_weather_data(location)
     if data:
