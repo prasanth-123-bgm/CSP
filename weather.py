@@ -1,75 +1,75 @@
 import requests
+import os
 
-# ✅ Hardcoded WeatherAPI Key (you can switch to dotenv later)
-weatherapi_key = "99aef283258d437fac031135250807"
+# 🔑 Use your API key securely (remember not to expose it in code)
+WEATHERAPI_KEY = os.getenv("WEATHERAPI_KEY", "99aef283258d437fac031135250807")
 
-# 🔄 Common fetcher for English, Telugu, Hindi
-def fetch_weather_data(location):
+def fetch_weather(city=None, lat=None, lon=None, lang=None):
     """
-    Takes city name, PIN code, or lat,lon as string and fetches weather.
+    Fetches current weather using WeatherAPI.com.
+    Accepts either city name _or_ latitude & longitude.
+    Supports localization (lang code like 'te'/'hi').
     """
-    url = f"http://api.weatherapi.com/v1/current.json?key={weatherapi_key}&q={location}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+    if not WEATHERAPI_KEY or (not city and not (lat and lon)):
+        return "Invalid input or missing API key."
 
-# 🌤️ English Weather Report
-def get_weather(location):
-    data = fetch_weather_data(location)
-    if data:
-        city = data['location']['name']
-        region = data['location']['region']
-        country = data['location']['country']
-        condition = data['current']['condition']['text']
-        temp = data['current']['temp_c']
-        humidity = data['current']['humidity']
-        wind = data['current']['wind_kph']
-        return (
-            f"Weather in {city}, {region}, {country}:\n"
+    # Build URL
+    base = "http://api.weatherapi.com/v1/current.json"
+    q = f"{lat},{lon}" if lat and lon else city
+    params = {
+        "key": WEATHERAPI_KEY,
+        "q": q,
+        "lang": lang if lang in ["en", "te", "hi"] else "en"
+    }
+
+    try:
+        res = requests.get(base, params=params, timeout=5)
+        res.raise_for_status()
+        data = res.json()["current"]
+    except requests.RequestException:
+        return f"❌ Could not fetch weather for {q}."
+    except KeyError:
+        return "❌ Unexpected response structure from API."
+
+    # Parse values
+    condition = data.get("condition", {}).get("text", "Unknown")
+    temp = data.get("temp_c", "N/A")
+    humidity = data.get("humidity", "N/A")
+    wind = data.get("wind_kph", "N/A")
+
+    # Localization templates
+    templates = {
+        "en": (
+            f"Weather in {city or f'{lat},{lon}'}:\n"
             f"Condition: {condition}\n"
             f"Temperature: {temp}°C\n"
             f"Humidity: {humidity}%\n"
-            f"Wind Speed: {wind} kph"
-        )
-    else:
-        return f"❌ Weather information not available for '{location}'."
-
-# 🌤️ Telugu Weather Report
-def get_weather_telugu(location):
-    data = fetch_weather_data(location)
-    if data:
-        city = data['location']['name']
-        condition = data['current']['condition']['text']
-        temp = data['current']['temp_c']
-        humidity = data['current']['humidity']
-        wind = data['current']['wind_kph']
-        return (
+            f"Wind Speed: {wind} kph"
+        ),
+        "te": (
             f"{city} లో వాతావరణ నివేదిక:\n"
             f"పరిస్థితి: {condition}\n"
             f"ఉష్ణోగ్రత: {temp}°C\n"
             f"తేమ: {humidity}%\n"
-            f"గాలివేగం: {wind} కి.మీ/గం"
-        )
-    else:
-        return f"❌ '{location}' యొక్క వాతావరణాన్ని పొందలేకపోయాము."
-
-# 🌤️ Hindi Weather Report
-def get_weather_hindi(location):
-    data = fetch_weather_data(location)
-    if data:
-        city = data['location']['name']
-        condition = data['current']['condition']['text']
-        temp = data['current']['temp_c']
-        humidity = data['current']['humidity']
-        wind = data['current']['wind_kph']
-        return (
-            f"{city} में मौसम की जानकारी:\n"
+            f"గాలి వేగం: {wind} కిమీ/గం"
+        ),
+        "hi": (
+            f"{city} में मौसम जानकारी:\n"
             f"स्थिति: {condition}\n"
             f"तापमान: {temp}°C\n"
             f"नमी: {humidity}%\n"
-            f"हवा की गति: {wind} किलोमीटर/घंटा"
+            f"हवा की गति: {wind} किमी/घंटा"
         )
-    else:
-        return f"❌ '{location}' के मौसम की जानकारी प्राप्त नहीं हो सकी।"
+    }
+
+    return templates.get(lang, templates["en"])
+
+# Aliased functions
+def get_weather(city):
+    return fetch_weather(city=city, lang="en")
+
+def get_weather_telugu(city):
+    return fetch_weather(city=city, lang="te")
+
+def get_weather_hindi(city):
+    return fetch_weather(city=city, lang="hi")
