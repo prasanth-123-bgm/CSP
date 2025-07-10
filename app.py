@@ -301,12 +301,12 @@ def main():
                 """, unsafe_allow_html=True)
                 text_to_speech(answer_native, lang=lang_code)
     with tab4:
-    st.subheader("🐛 Pest Management Assistant")
-    st.markdown("Get eco-friendly pesticide recommendations based on your crop and field area.")
+        st.subheader("🐛 Pest Management Assistant")
+        st.markdown("Get eco-friendly pesticide recommendations based on your crop and field area.")
 
-    crop_input = st.text_input("Enter Crop Name (e.g., Rice, Chilli, Cotton)")
-    area_input = st.number_input("Enter Field Area (in hectares)", min_value=0.1, step=0.1)
-    lang_input = st.radio("Preferred Language for Output", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
+        crop_input = st.text_input("Enter Crop Name (e.g., Rice, Chilli, Cotton)")
+        area_input = st.number_input("Enter Field Area (in hectares)", min_value=0.1, step=0.1)
+        lang_input = st.radio("Preferred Language for Output", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
 
     def generate_pest_plan(crop, area):
         df = pd.read_csv("pest_db.csv")
