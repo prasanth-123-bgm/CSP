@@ -8,3 +8,4 @@ python-dotenv
 requests
 numpy
 joblib
+sentence_transformers
