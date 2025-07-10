@@ -240,10 +240,10 @@ def main():
             else:
                 st.warning("Invalid PIN or not found.")
                 location = None
-    else:
-        lat = st.number_input("Latitude", format="%.6f")
-        lon = st.number_input("Longitude", format="%.6f")
-        location = f"{lat},{lon}" if lat and lon else None
+        else:
+              lat = st.number_input("Latitude", format="%.6f")
+            lon = st.number_input("Longitude", format="%.6f")
+            location = f"{lat},{lon}" if lat and lon else None
 
     if st.button("Get Weather", key="village_weather_btn"):
         if location:
