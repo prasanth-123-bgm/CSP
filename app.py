@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -33,7 +34,7 @@ def set_jpg_as_page_bg(jpg_file):
     """
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# 🖼 Call the function with your image
+# 🖼️ Call the function with your image
 set_jpg_as_page_bg("csp background.jpg")
 
 
@@ -219,58 +220,29 @@ def main():
 
     lang = st.radio("Language", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
 
-    tab1, tab2, tab3 ,tab4= st.tabs(["🌤 Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
+    tab1, tab2, tab3 ,tab4= st.tabs(["🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
 
     with tab1:
-        st.markdown("### 🌦 Weather Forecast", help="Get real-time weather even for villages")
-        method = st.selectbox("Search by", ["Village/City Name", "PIN Code", "Coordinates (Lat, Long)"])
-
-        if method == "Village/City Name":
-            location = st.text_input("Enter Village or City Name")
-        elif method == "PIN Code":
-            pincode = st.text_input("Enter PIN Code")
-            if pincode:
-                import requests
-            # Convert PIN to location using India Post API or OpenCage
-                loc_api = f"https://api.postalpincode.in/pincode/{pincode}"
-                res = requests.get(loc_api).json()
-                if res and res[0]["Status"] == "Success":
-                    location = res[0]["PostOffice"][0]["District"]
-                    st.info(f"Location detected: {location}")
-            else:
-                st.warning("Invalid PIN or not found.")
-                location = None
-        else:
-            lat = st.number_input("Latitude", format="%.6f")
-            lon = st.number_input("Longitude", format="%.6f")
-            location = f"{lat},{lon}" if lat and lon else None
-
-    if st.button("Get Weather", key="village_weather_btn"):
-        if location:
-            with st.spinner("Fetching weather data..."):
-                try:
-                    if "," in location:  # coordinates
-                        report = get_weather(lat=lat, lon=lon)
+        st.markdown("### Weather Forecast", help="Get real-time weather data")
+        city = st.text_input("Enter city name", key="weather_city")
+        if st.button("Get Weather", key="weather_btn"):
+            if city:
+                with st.spinner("Fetching weather..."):
+                    if lang == "తెలుగు":
+                        report = get_weather_telugu(city)
+                    elif lang == "हिन्दी":
+                        report = get_weather_hindi(city)
                     else:
-                        report = (
-                            get_weather_telugu(location) if lang == "తెలుగు"
-                            else get_weather_hindi(location) if lang == "हिन्दी"
-                            else get_weather(location)
-                        )
+                        report = get_weather(city)
 
                     st.markdown(f"""
                     <div class='card result-card'>
-                        <h4>🌦 Weather Report</h4>
+                        <h4>Weather Report</h4>
                         <p>{report}</p>
                     </div>
                     """, unsafe_allow_html=True)
-
                     text_to_speech(report, 'te' if lang == "తెలుగు" else 'hi' if lang == "हिन्दी" else 'en')
 
-                except Exception as e:
-                    st.error(f"Error fetching weather: {str(e)}")
-        else:
-            st.warning("Please provide a valid location.")
     with tab2:
         st.markdown("### Soil Analysis", help="Enter soil parameters for crop recommendation")
         col1, col2 = st.columns(2)
@@ -385,5 +357,5 @@ def main():
                 st.warning("Please enter crop and area details.")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
