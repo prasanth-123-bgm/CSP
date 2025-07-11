@@ -33,7 +33,7 @@ def set_jpg_as_page_bg(jpg_file):
     """
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# 🖼️ Call the function with your image
+# 🖼 Call the function with your image
 set_jpg_as_page_bg("csp background.jpg")
 
 
@@ -52,100 +52,88 @@ st.markdown("""
 <style>
 /* === GLOBAL RESET & FONTS === */
 * {
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: all 0.3s ease-in-out;
     scroll-behavior: smooth;
 }
 
-/* === PAGE BACKGROUND === */
+/* === APP CONTAINER WITH GLASS EFFECT === */
 .stApp {
-    background: linear-gradient(to bottom right, #1f1c2c, #928DAB);
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
     padding: 2rem;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
 }
 
-/* === HEADER ANIMATION === */
-h1, h2, h3, .stMarkdown h1 {
-    color: #f2f2f2;
-    animation: glowText 2s ease-in-out infinite alternate;
-    text-shadow: 0 0 5px #ffffffaa, 0 0 10px #ffffff77;
-}
-
-@keyframes glowText {
-    from {
-        text-shadow: 0 0 5px #ff4ecd, 0 0 10px #ff6ec4;
-    }
-    to {
-        text-shadow: 0 0 20px #ffd9ec, 0 0 30px #ffc3a0;
-    }
+/* === HEADERS === */
+h1, h2, h3, .stMarkdown, .stRadio label {
+    color: #00fff2;
+    font-weight: 700;
+    text-shadow: 0 0 4px #00c9a7;
 }
 
 /* === INPUT FIELDS === */
 input, .stNumberInput input {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: #ffebee !important;
-    border: 2px solid #ff6ec4;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    color: #00e5ff !important;
+    border: 1.5px solid #00ffc3;
     border-radius: 12px;
     padding: 0.6rem;
     font-weight: 600;
 }
 input::placeholder {
-    color: #f8bbd0;
+    color: #80cbc4;
     font-weight: 500;
 }
 
 /* === BUTTON STYLING === */
 .stButton > button {
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    background: linear-gradient(135deg, #00e676, #00b0ff);
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 0.7rem 1.5rem;
+    border-radius: 16px;
+    padding: 0.7rem 1.4rem;
     font-weight: bold;
-    box-shadow: 0 0 12px #ff80ab;
-    animation: pulseBtn 2s infinite;
-}
-
-@keyframes pulseBtn {
-    0% { box-shadow: 0 0 12px #ff80ab; }
-    50% { box-shadow: 0 0 20px #ff4081; }
-    100% { box-shadow: 0 0 12px #ff80ab; }
+    box-shadow: 0 0 18px rgba(0, 255, 200, 0.3);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
 }
 
 .stButton > button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #ff4081, #ff80ab);
+    background: linear-gradient(135deg, #00b0ff, #ff6f00);
+    box-shadow: 0 0 24px rgba(255, 111, 0, 0.4);
+    transform: scale(1.05) rotate(-0.5deg);
 }
 
-/* === TABS WITH TRANSITION === */
+/* === TABS === */
 .stTabs [role="tab"] {
-    background: #2e2e38;
-    color: #ffb3d9;
+    background: #212121;
+    color: #00e5ff;
     padding: 0.6rem 1.2rem;
-    border-radius: 14px 14px 0 0;
+    border-radius: 12px 12px 0 0;
     font-weight: bold;
-    box-shadow: 0 4px 12px rgba(255,192,203,0.2);
-    transition: background 0.4s, color 0.4s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-
 .stTabs [role="tab"][aria-selected="true"] {
-    background: linear-gradient(to right, #ff758c, #ff7eb3);
-    color: white;
-    box-shadow: 0 8px 20px rgba(255, 128, 171, 0.4);
+    background: linear-gradient(to right, #00c9a7, #00b0ff);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 255, 255, 0.3);
 }
 
 /* === RESULT CARD === */
 .result-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 6px solid #ff80ab;
+    background: rgba(0, 0, 0, 0.6);
+    border-left: 6px solid #00e676;
     border-radius: 16px;
     padding: 1.5rem;
     margin-top: 1.5rem;
-    color: #ffffff;
-    box-shadow: 0 0 24px rgba(255,128,171,0.2);
-    animation: floatIn 0.8s ease;
+    color: #e0f7fa;
+    box-shadow: 0 0 20px rgba(0,255,200,0.2);
+    animation: floatIn 0.6s ease;
 }
 
+/* === CUSTOM ANIMATION === */
 @keyframes floatIn {
     from { transform: translateY(30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
@@ -153,16 +141,16 @@ input::placeholder {
 
 /* === FOOTER === */
 .footer {
-    background: linear-gradient(to right, #2e2e38, #4a148c);
-    color: #f3e5f5;
+    background: linear-gradient(to right, #212121, #004d40);
+    color: #ffffff;
     padding: 1rem;
     text-align: center;
     border-radius: 16px;
     font-size: 0.9rem;
-    box-shadow: 0 -2px 12px rgba(255, 128, 171, 0.2);
+    box-shadow: 0 -2px 8px rgba(0, 255, 200, 0.1);
 }
 
-/* === CUSTOM SCROLLBAR === */
+/* === SCROLLBAR STYLING === */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -170,9 +158,27 @@ input::placeholder {
     background: rgba(255, 255, 255, 0.1);
 }
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#ff80ab, #f50057);
+    background: linear-gradient(#00c9a7, #00b0ff);
     border-radius: 10px;
 }
+</style>
+""", unsafe_allow_html=True)
+
+# Load environment variables
+load_dotenv()
+
+# UI Config
+st.set_page_config(
+    page_title="🌿 AgriVoice Pro",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    page_icon="🌱"
+)
+
+# 🌟 CSS Styling
+st.markdown("""
+<style>
+/* Include your full CSS styles here */
 </style>
 """, unsafe_allow_html=True)
 
@@ -213,10 +219,10 @@ def main():
 
     lang = st.radio("Language", ["English", "తెలుగు", "हिन्दी"], horizontal=True)
 
-    tab1, tab2, tab3 ,tab4= st.tabs(["🌤️ Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
+    tab1, tab2, tab3 ,tab4= st.tabs(["🌤 Weather Forecast", "🌱 Crop Recommendation", "🏛 Government Schemes","🐛 Pest Management"])
 
     with tab1:
-        st.markdown("### 🌦️ Weather Forecast", help="Get real-time weather even for villages")
+        st.markdown("### 🌦 Weather Forecast", help="Get real-time weather even for villages")
         method = st.selectbox("Search by", ["Village/City Name", "PIN Code", "Coordinates (Lat, Long)"])
 
         if method == "Village/City Name":
@@ -254,7 +260,7 @@ def main():
 
                     st.markdown(f"""
                     <div class='card result-card'>
-                        <h4>🌦️ Weather Report</h4>
+                        <h4>🌦 Weather Report</h4>
                         <p>{report}</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -379,5 +385,5 @@ def main():
                 st.warning("Please enter crop and area details.")
 
 
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
